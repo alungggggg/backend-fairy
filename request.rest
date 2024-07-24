@@ -1,0 +1,52 @@
+# POST  http://localhost:5000/api/users
+# Content-Type: application/json
+
+# {
+#     "nama": "alung",
+#     "email": "alungpasdasdasd@gmail.com",
+#     "password": "asdasdasd"
+# }
+
+# GET http://localhost:5000/api/users
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsIm5hbWEiOiJzdW4gZ29kIG5pYSIsImVtYWlsIjoiYWx1c25ncHdkQGdtYWlsLmNvbSIsImlhdCI6MTcyMDQzMTIxMCwiZXhwIjoxNzIwNDM4NDEwfQ.n9GwbXTdOxaP-u9IPMdCVCrdkidhc_x9iKWWd6ODxow
+
+
+
+ 
+# GET http://localhost:5000/api/users/20
+
+# PATCH   http://localhost:5000/api/users/15
+# Content-Type: application/json
+
+# {
+#     "nama": "sun god nia",
+#     "password": "alung01042003"
+# }
+
+# DELETE http://localhost:5000/api/users/100
+
+
+# POST  http://localhost:5000/api/register
+# Content-Type: application/json
+
+# {
+#     "nama": "alung",
+#     "email": "alusngpwd@gmail.com",
+#     "password": "asdasdasd",
+#     "confirmPassword": "asdasdasd"
+# }
+
+POST http://localhost:5000/api/login
+Content-Type: application/json
+
+{
+    "email": "alusngpwd@gmail.com",
+    "password": "asdasdasd"
+}
+
+# POST http://localhost:5000/api/dongeng
+# Content-Type: multipart/form-data
+
+# {
+#     "title": "oke"
+# }
