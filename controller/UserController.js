@@ -51,9 +51,17 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
 
     try {
-        const { nama, email } = req.body
-        const result = await User.update({ nama }, { where: { id: req.params.id } })
-        res.status(200).json({ message: "User Berhasil di update" })
+        if (req.body.password) {
+            const { nama, email, password } = req.body
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(password, salt)
+            const result = await User.update({ nama, email, hashPassword }, { where: { id: req.params.id } })
+            res.status(200).json({ message: "User Berhasil di update" })
+        } else {
+            const { nama, email } = req.body
+            const result = await User.update({ nama }, { where: { id: req.params.id } })
+            res.status(200).json({ message: "User Berhasil di update" })
+        }
     } catch (e) {
         res.status(500).json({ msg: error.message })
     }
