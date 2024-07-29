@@ -1,6 +1,6 @@
 import express from "express"
-import { deleteUser, updateUser, createUser, getUser, getUserByID, searchEmail } from "../controller/UserController.js"
-import { register, login } from "../controller/AuthController.js"
+import { deleteUser, updateUser, createUser, getUser, getUserByID } from "../controller/UserController.js"
+import { register, login, isAvailableEmail, checkEmail } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 
@@ -13,7 +13,9 @@ router.get("/api/users", accessValidation, getUser);
 router.post("/api/users", accessValidation, createUser);
 router.patch("/api/users/:id", accessValidation, updateUser);
 router.delete("/api/users/:id", accessValidation, deleteUser);
-router.get("/api/email", searchEmail)
+
+router.get("/api/auth/alreadyexist/email", isAvailableEmail)
+router.get("/api/auth/email", checkEmail);
 
 router.post("/api/dongeng", accessValidation, createDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);

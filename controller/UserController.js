@@ -10,20 +10,7 @@ export const getUser = async (req, res) => {
     }
 }
 
-export const searchEmail = async (req, res) => {
-    console.log(req.query.search)
-    try {
-        const result = await User.findAll({
-            where: {
-                email: req.query.search,
-            },
-        });
-        return res.status(200).json({ isAvailable: (result.length > 0) ? false : true });
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
 
-}
 
 export const getUserByID = async (req, res) => {
     try {

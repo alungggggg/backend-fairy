@@ -39,6 +39,34 @@ export const register = async (req, res) => {
     }
 }
 
+export const isAvailableEmail = async (req, res) => {
+    try {
+        const result = await User.findAll({
+            where: {
+                email: req.query.search,
+            },
+        });
+        return res.status(200).json({ isAvailable: (result.length > 0) ? false : true });
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+
+}
+
+export const checkEmail = async (req, res) => {
+    try {
+        const result = await User.findAll({
+            where: {
+                email: req.query.search,
+            },
+        });
+        console.log(result)
+        return res.status(200).json({ checkEmailExists: (result.length > 0) ? true : false });
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body
