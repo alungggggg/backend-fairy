@@ -2,6 +2,7 @@ import Dongeng from '../Models/DongengModel.js';
 import validator from 'validator';
 import path from "path";
 import fs from "fs";
+import pdf from "pdf-poppler"
 
 export const getDongeng = async (req, res) => {
     try {
@@ -27,10 +28,10 @@ export const getDongengById = async (req, res) => {
 export const createDongeng = async (req, res) => {
     const { title } = req.body;
     const file = req.files.file
-    console.log(file)
 
     const ext = path.extname(file.name)
-    const fileName = file.md5 + ext;
+    const fileNamed = new Date().toISOString().replace(/[-:.]/g, '')
+    const fileName = fileNamed + ext;
     if (file === null) {
         return res.status(400).json({ message: "Tidak ada file yang di upload" })
     }
@@ -43,12 +44,32 @@ export const createDongeng = async (req, res) => {
 
     file.mv(`./public/pdf/${fileName}`, async (err) => {
         if (err) {
+            console.log("errooorrrr")
             return res.status(500).json({ message: err.message })
         }
 
         try {
+
+            let file = `./public/pdf/${fileName}`;  // Ganti dengan path ke file PDF Anda
+
+            let options = {
+                format: 'png',      // Format output, bisa jpeg/png/tiff dll.
+                out_dir: `./public/img`,  // Direktori output
+                out_prefix: path.basename(file, path.extname(file)),  // Prefix nama file output
+                page: 1              // Mengonversi hanya halaman pertama
+            };
+
+            pdf.convert(file, options)
+                .then(() => {
+                    console.log('Halaman pertama PDF berhasil dikonversi menjadi gambar.');
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+
             await Dongeng.create({
                 title,
+                cover: `${req.protocol}://${req.get('host')}/img/${fileNamed}-01.png`,
                 PdfPath: `${req.protocol}://${req.get('host')}/pdf/${fileName}`,
                 fileName,
                 view: 0,
