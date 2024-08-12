@@ -1,6 +1,6 @@
 import express from "express"
 import { deleteUser, updateUser, createUser, getUser, getUserByID } from "../controller/UserController.js"
-import { register, login, isAvailableEmail, checkEmail, forgotPassword } from "../controller/AuthController.js"
+import { register, login, isAvailableEmail, checkEmail, forgotPassword, logout, testAuthToken, authenticationToken, refreshNewToken } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 
@@ -23,10 +23,13 @@ router.get("/api/dongeng/:id", getDongengById);
 router.get("/api/dongengview/:id", sumView)
 
 router.post("/api/login", login)
+router.post("/api/logout", logout)
 router.post("/api/register", register)
 router.get("/api/auth/alreadyexist/email", isAvailableEmail)
 router.get("/api/auth/email", checkEmail);
 router.post("/api/forgot-password", forgotPassword)
+router.post("/api/refresh-token", refreshNewToken)
 
+router.get("/api/test", authenticationToken,  testAuthToken);
 
 export default router;
