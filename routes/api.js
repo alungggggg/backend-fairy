@@ -30,6 +30,6 @@ router.get("/api/auth/email", checkEmail);
 router.post("/api/forgot-password", forgotPassword)
 router.post("/api/refresh-token", refreshNewToken)
 
-router.get("/api/test", authenticationToken,  testAuthToken);
+router.get("/api/test", authenticationToken, testAuthToken);
 
 export default router;
