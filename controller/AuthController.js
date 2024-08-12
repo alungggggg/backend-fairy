@@ -157,9 +157,7 @@ export const forgotPassword = async (req, res) => {
     }
 
 
-    // const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-    //     expiresIn: "1d",
-    // });
+
     let mailOptions = {
         from: "yosanokta12@gmail.com",
         to: email,
@@ -392,3 +390,25 @@ export const refreshNewToken = (req, res) => {
         );
     }
 };
+
+export const forgotPasswordForm = async (req, res) => {
+    const { password } = req.body
+    const { id } = req.params
+
+    console.log(id)
+
+
+    try {
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(password, salt)
+        const result = await User.update({ password: hashPassword }, { where: { id } })
+
+        console.log(await User.findOne({ where: { id } }))
+        return res.status(200).json({ message: "Berhasil mengganti password" })
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+
+
+}

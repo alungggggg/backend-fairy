@@ -1,6 +1,6 @@
 import express from "express"
-import { deleteUser, updateUser, createUser, getUser, getUserByID } from "../controller/UserController.js"
-import { register, login, isAvailableEmail, checkEmail, forgotPassword, logout, testAuthToken, authenticationToken, refreshNewToken } from "../controller/AuthController.js"
+import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } from "../controller/UserController.js"
+import { register, login, isAvailableEmail, checkEmail, forgotPassword, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 
@@ -8,6 +8,7 @@ import accessValidation from "../middleware/authorization.js"
 
 const router = express.Router();
 
+router.get("/api/profile/:token", profile)
 router.get("/api/users/:id", accessValidation, getUserByID);
 router.get("/api/users", accessValidation, getUser);
 router.post("/api/users", accessValidation, createUser);
@@ -28,6 +29,7 @@ router.post("/api/register", register)
 router.get("/api/auth/alreadyexist/email", isAvailableEmail)
 router.get("/api/auth/email", checkEmail);
 router.post("/api/forgot-password", forgotPassword)
+router.post("/api/forgot-password/:id", forgotPasswordForm)
 router.post("/api/refresh-token", refreshNewToken)
 
 router.get("/api/test", authenticationToken, testAuthToken);
