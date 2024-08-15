@@ -3,6 +3,7 @@ import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } fro
 import { register, login, isAvailableEmail, checkEmail, forgotPassword, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
+import { createSoalPilgan, deleteSoalPilgan, getSoalPilgan } from "../controller/soalPilganController.js"
 
 
 
@@ -31,6 +32,10 @@ router.get("/api/auth/email", checkEmail);
 router.post("/api/forgot-password", forgotPassword)
 router.post("/api/forgot-password/:id", forgotPasswordForm)
 router.post("/api/refresh-token", refreshNewToken)
+
+router.post("/api/set-soal-pilgan" , createSoalPilgan)
+router.get("/api/get-soal-pilgan", getSoalPilgan)
+router.delete("/api/delete-soal-pilgan/:id", deleteSoalPilgan)
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
