@@ -8,9 +8,9 @@ const SoalPilgan = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     soal: {
       type: DataTypes.STRING,
@@ -53,9 +53,9 @@ export const SoalUraianSingkat = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     soal: {
       type: DataTypes.STRING,
@@ -82,6 +82,7 @@ export const SoalUraianPanjang = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
