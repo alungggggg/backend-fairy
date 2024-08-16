@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Dongeng from "./DongengModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -107,6 +108,15 @@ export const SoalUraianPanjang = db.define(
 
   { freezeTableName: true, timestamps: false }
 );
+
+SoalPilgan.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalPilgan, { foreignKey: "idDongeng" });
+
+SoalUraianPanjang.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianPanjang, { foreignKey: "idDongeng" });
+
+SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianSingkat, { foreignKey: "idDongeng" });
 
 export default SoalPilgan;
 
