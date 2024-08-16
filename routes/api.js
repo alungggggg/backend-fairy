@@ -3,7 +3,7 @@ import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } fro
 import { register, login, isAvailableEmail, checkEmail, forgotPassword, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
-import { createSoalPilgan, deleteSoalPilgan, getSoalPilgan } from "../controller/soalPilganController.js"
+import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 
 
 
@@ -36,6 +36,17 @@ router.post("/api/refresh-token", refreshNewToken)
 router.post("/api/set-soal-pilgan" , createSoalPilgan)
 router.get("/api/get-soal-pilgan", getSoalPilgan)
 router.delete("/api/delete-soal-pilgan/:id", deleteSoalPilgan)
+router.patch("/api/update-soal-pilgan/:id", updateSoalPilgan)
+
+router.get("api/get-soal-uraian-singkat" , getSoalUraianSingkat)
+router.post("/api/set-soal-uraian-singkat" , createSoalUraianSingkat)
+router.delete("/api/delete-soal-uraian-singkat/:id" , deleteSoalUraianSingkat)
+router.patch("/api/update-soal-uraian-singkat/:id" , updateSoalUraianSingkat)
+
+router.get("api/get-soal-uraian-panjang" , getSoalUraianPanjang)
+router.post("/api/set-soal-uraian-panjang" , createSoalUraianPanjang)
+router.delete("/api/delete-soal-uraian-panjang/:id" , deleteSoalUraianPanjang)
+router.patch("/api/update-soal-uraian-panjang/:id" , updateSoalUraianPanjang)
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
