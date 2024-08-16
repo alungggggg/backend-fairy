@@ -109,6 +109,17 @@ export const SoalUraianPanjang = db.define(
   { freezeTableName: true, timestamps: false }
 );
 
+export default SoalPilgan;
+
+db.sync({ force: false }) // `force: false` ensures that tables are not dropped and recreated if they already exist
+.then(() => {
+  console.log("Database & tables created!");
+})
+.catch((error) => {
+  console.error("Error creating tables:", error);
+});
+
+
 SoalPilgan.belongsTo(Dongeng, { foreignKey: "idDongeng" });
 Dongeng.hasMany(SoalPilgan, { foreignKey: "idDongeng" });
 
@@ -117,9 +128,3 @@ Dongeng.hasMany(SoalUraianPanjang, { foreignKey: "idDongeng" });
 
 SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: "idDongeng" });
 Dongeng.hasMany(SoalUraianSingkat, { foreignKey: "idDongeng" });
-
-export default SoalPilgan;
-
-(async () => {
-  await db.sync();
-})();
