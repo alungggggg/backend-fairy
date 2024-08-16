@@ -1,17 +1,19 @@
 import { where } from "sequelize";
 import Dongeng from "../Models/DongengModel.js";
-import SoalPilgan, { SoalUraianPanjang, SoalUraianSingkat } from "../Models/soalModel.js";
+import SoalPilgan, {
+  SoalUraianPanjang,
+  SoalUraianSingkat,
+} from "../Models/soalModel.js";
 import { v4 as uuidv4 } from "uuid";
 
-SoalPilgan.belongsTo(Dongeng, { foreignKey: 'idDongeng' });
-Dongeng.hasMany(SoalPilgan, { foreignKey: 'idDongeng' });
+SoalPilgan.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalPilgan, { foreignKey: "idDongeng" });
 
-SoalUraianPanjang.belongsTo(Dongeng, { foreignKey: 'idDongeng' });
-Dongeng.hasMany(SoalUraianPanjang, { foreignKey: 'idDongeng' });
+SoalUraianPanjang.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianPanjang, { foreignKey: "idDongeng" });
 
-SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: 'idDongeng' });
-Dongeng.hasMany(SoalUraianSingkat, { foreignKey: 'idDongeng' });
-
+SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianSingkat, { foreignKey: "idDongeng" });
 
 // Pilihan Ganda
 export const getSoalPilgan = async (req, res) => {
@@ -19,9 +21,9 @@ export const getSoalPilgan = async (req, res) => {
     const response = await SoalPilgan.findAll({
       include: {
         model: Dongeng,
-        as: 'dongeng', // Optional alias
+        as: "dongeng", // Optional alias
         required: false, // This ensures a LEFT OUTER JOIN
-      }
+      },
     });
     res.status(200).json(response);
   } catch (err) {
@@ -34,7 +36,7 @@ export const createSoalPilgan = async (req, res) => {
     const { soal, idDongeng, opsi_1, opsi_2, opsi_3, opsi_4, jawaban } =
       req.body;
     await SoalPilgan.create({
-      id : uuidv4(),
+      id: uuidv4(),
       soal,
       idDongeng,
       opsi_1,
@@ -86,9 +88,9 @@ export const getSoalUraianPanjang = async (req, res) => {
     const response = await SoalUraianPanjang.findAll({
       include: {
         model: Dongeng,
-        as: 'dongeng',
+        as: "dongeng",
         required: false,
-      }
+      },
     });
     res.status(200).json(response);
   } catch (err) {
@@ -98,7 +100,7 @@ export const getSoalUraianPanjang = async (req, res) => {
 
 export const createSoalUraianPanjang = async (req, res) => {
   try {
-    const { soal, idDongeng , jawaban } = req.body;
+    const { soal, idDongeng, jawaban } = req.body;
     await SoalUraianPanjang.create({
       id: uuidv4(),
       soal,
@@ -122,8 +124,10 @@ export const deleteSoalUraianPanjang = async (req, res) => {
 
 export const updateSoalUraianPanjang = async (req, res) => {
   try {
-    const { soal, idDongeng , jawaban } = req.body;
-    const item = await SoalUraianPanjang.findOne({ where: { id: req.params.id } });
+    const { soal, idDongeng, jawaban } = req.body;
+    const item = await SoalUraianPanjang.findOne({
+      where: { id: req.params.id },
+    });
     if (!item) {
       return res.status(404).json({ message: "Soal Uraian Panjang Not Found" });
     }
@@ -143,9 +147,9 @@ export const getSoalUraianSingkat = async (req, res) => {
     const response = await SoalUraianSingkat.findAll({
       include: {
         model: Dongeng,
-        as: 'dongeng',
+        as: "dongeng",
         required: false,
-      }
+      },
     });
     res.status(200).json(response);
   } catch (err) {
@@ -155,7 +159,7 @@ export const getSoalUraianSingkat = async (req, res) => {
 
 export const createSoalUraianSingkat = async (req, res) => {
   try {
-    const { soal, idDongeng , jawaban } = req.body;
+    const { soal, idDongeng, jawaban } = req.body;
     await SoalUraianSingkat.create({
       id: uuidv4(),
       soal,
@@ -179,8 +183,10 @@ export const deleteSoalUraianSingkat = async (req, res) => {
 
 export const updateSoalUraianSingkat = async (req, res) => {
   try {
-    const { soal, idDongeng , jawaban } = req.body;
-    const item = await SoalUraianSingkat.findOne({ where: { id: req.params.id } });
+    const { soal, idDongeng, jawaban } = req.body;
+    const item = await SoalUraianSingkat.findOne({
+      where: { id: req.params.id },
+    });
     if (!item) {
       return res.status(404).json({ message: "Soal Uraian Singkat Not Found" });
     }
@@ -193,3 +199,15 @@ export const updateSoalUraianSingkat = async (req, res) => {
     return res.status(401).json({ message: err.message });
   }
 };
+
+async function test() {
+  const res = await Dongeng.findAll({
+    include: {
+      model: SoalPilgan,
+      as: "soalPilgans",
+    },
+  });
+  console.log(res);
+}
+
+test();
