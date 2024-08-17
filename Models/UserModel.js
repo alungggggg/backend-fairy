@@ -1,7 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import validator from "validator";
-import bcrypt from 'bcrypt';
 
 const { DataTypes } = Sequelize;
 
@@ -31,7 +29,6 @@ const loginModel = async (email, password) => {
         },
         status: (count === 0)
     }
-    // console.log(rows)
 
     return credentials
 }

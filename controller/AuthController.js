@@ -15,13 +15,26 @@ export const validJWT = (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
+}
+
+export const verify = async (req, res) => {
+    const { token } = req.query
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(token)
+    const dateNow = new Date().getTime() / 1000
+    if (dateNow >= decoded.exp)
+        return res.status(410).json({ message: "verify is expired" });
+    try {
+        await User.update({ isActive: true }, { where: { id: decoded.id } })
+        return res.status(200).json({ message: "berhasil mengaktivasi akun!" })
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
 
 }
 
-
-
 export const register = async (req, res) => {
-    const { nama, email, password, confirmPassword } = req.body;
+    const { nama, email, password } = req.body;
     let result = {
         email: {
             value: email,
@@ -35,14 +48,23 @@ export const register = async (req, res) => {
                 email: email,
             },
         });
-        console.log(nama);
         if (uniqueEmail) {
             result.email.message = "Email sudah terdaftar!";
             return res.status(200).json(result);
         }
+
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt);
+
         await User.create({ nama, email, password: hashPassword });
+
+        const user = await User.findOne({ where: { nama, email } })
+        const payload = {
+            id: user.id,
+            exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
+        };
+        const token = jwt.sign(payload, process.env.JWT_SECRET);
+        const link = `${process.env.API_CLIENT}/verify?token=${token}`;
 
         let mailOptions = {
             from: "yosanokta12@gmail.com",
@@ -122,7 +144,7 @@ export const register = async (req, res) => {
                                 <p>Terima kasih telah mendaftar di <strong>[Nama Perusahaan/Organisasi]</strong>. Untuk mengaktifkan akun Anda, kami perlu memverifikasi alamat email Anda.</p>
                                 <p>Silakan klik tautan di bawah ini untuk memverifikasi email Anda:</p>
                                 <div class="button">
-                                    <a href="#">Verifikasi Email</a>
+                                    <a href="${link}">Verifikasi Email</a>
                                 </div>
                                 <p>Jika Anda tidak melakukan pendaftaran ini, Anda dapat mengabaikan email ini.</p>
                                 <p>Tautan ini akan berlaku selama 24 jam.</p>

@@ -1,6 +1,6 @@
 import express from "express"
 import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } from "../controller/UserController.js"
-import { register, login, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT } from "../controller/AuthController.js"
+import { register, login, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT, verify } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
@@ -33,6 +33,7 @@ router.post("/api/forgot-password", forgotPasswordSend)
 router.post("/api/forgot-password/:token", forgotPasswordForm)
 router.post("/api/refresh-token", refreshNewToken)
 router.get("/api/isvalidtoken/:token", validJWT)
+router.get("/api/verify", verify)
 
 router.post("/api/set-soal-pilgan", createSoalPilgan)
 router.get("/api/get-soal-pilgan", getSoalPilgan)
