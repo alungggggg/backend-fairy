@@ -6,15 +6,6 @@ import SoalPilgan, {
 } from "../Models/soalModel.js";
 import { v4 as uuidv4 } from "uuid";
 
-SoalPilgan.belongsTo(Dongeng, { foreignKey: "idDongeng" });
-Dongeng.hasMany(SoalPilgan, { foreignKey: "idDongeng" });
-
-SoalUraianPanjang.belongsTo(Dongeng, { foreignKey: "idDongeng" });
-Dongeng.hasMany(SoalUraianPanjang, { foreignKey: "idDongeng" });
-
-SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: "idDongeng" });
-Dongeng.hasMany(SoalUraianSingkat, { foreignKey: "idDongeng" });
-
 // Pilihan Ganda
 export const getSoalPilgan = async (req, res) => {
   try {

@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Dongeng from "./DongengModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -8,9 +9,9 @@ const SoalPilgan = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     soal: {
       type: DataTypes.STRING,
@@ -53,9 +54,9 @@ export const SoalUraianSingkat = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
     },
     soal: {
       type: DataTypes.STRING,
@@ -82,6 +83,7 @@ export const SoalUraianPanjang = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
@@ -109,6 +111,20 @@ export const SoalUraianPanjang = db.define(
 
 export default SoalPilgan;
 
-(async () => {
-  await db.sync();
-})();
+db.sync({ force: false }) // `force: false` ensures that tables are not dropped and recreated if they already exist
+.then(() => {
+  console.log("Database & tables created!");
+})
+.catch((error) => {
+  console.error("Error creating tables:", error);
+});
+
+
+SoalPilgan.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalPilgan, { foreignKey: "idDongeng" });
+
+SoalUraianPanjang.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianPanjang, { foreignKey: "idDongeng" });
+
+SoalUraianSingkat.belongsTo(Dongeng, { foreignKey: "idDongeng" });
+Dongeng.hasMany(SoalUraianSingkat, { foreignKey: "idDongeng" });
