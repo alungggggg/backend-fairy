@@ -4,7 +4,7 @@ import { register, login, isAvailableEmail, checkEmail, forgotPasswordSend, forg
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
-import { createQuiz, deleteQuiz, getAllQuiz, updateQuiz } from "../controller/quizController.js"
+import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
 
 
 
@@ -55,6 +55,7 @@ router.get("/api/get-all-quiz", getAllQuiz)
 router.post("/api/create-quiz", createQuiz)
 router.delete("/api/delete-quiz/:id", deleteQuiz)
 router.patch("/api/update-quiz/:id", updateQuiz)
+router.get("/api/get-quiz/:id", getQuizById)
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
