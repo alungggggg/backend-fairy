@@ -190,15 +190,3 @@ export const updateSoalUraianSingkat = async (req, res) => {
     return res.status(401).json({ message: err.message });
   }
 };
-
-async function test() {
-  const res = await Dongeng.findAll({
-    include: {
-      model: SoalPilgan,
-      as: "soalPilgans",
-    },
-  });
-  console.log(res);
-}
-
-test();
