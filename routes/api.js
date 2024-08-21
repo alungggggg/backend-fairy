@@ -18,13 +18,13 @@ router.patch("/api/users/:id", accessValidation, updateUser);
 router.delete("/api/users/:id", accessValidation, deleteUser);
 
 
-router.post("/api/dongeng", accessValidation, createDongeng);
+router.post("/api/dongeng", createDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
 router.get("/api/dongeng", getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
 router.get("/api/dongeng/:id", getDongengById);
 router.get("/api/dongengview/:id", sumView)
-router.get("/api/popular")
+// router.get("/api/popular", popularView)
 
 router.post("/api/login", login)
 router.post("/api/logout", logout)
