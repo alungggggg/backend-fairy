@@ -13,6 +13,15 @@ export const getDongeng = async (req, res) => {
     }
 }
 
+export const popularView = (req, res) => {
+    try {
+        const result = Dongeng.findAll({ limit: 4, order: ['title', 'DESC'] });
+        return res.status(200).json(result)
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 export const sumView = async (req, res) => {
     const { id } = req.params
     try {
@@ -45,6 +54,7 @@ export const createDongeng = async (req, res) => {
     const { title } = req.body;
     const file = req.files.file
 
+    console.log(file);
     const ext = path.extname(file.name)
     const fileNamed = new Date().toISOString().replace(/[-:.]/g, '')
     const fileName = fileNamed + ext;
