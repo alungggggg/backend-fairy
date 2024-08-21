@@ -17,6 +17,21 @@ export const validJWT = (req, res) => {
     }
 }
 
+export const isAvailableUsername = async (req, res) => {
+    try {
+        const result = await User.findAll({
+            where: {
+                username: req.query.search,
+            },
+        });
+        return res
+            .status(200)
+            .json({ isAvailable: result.length > 0 ? false : true });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 export const verify = async (req, res) => {
     const { token } = req.query
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
@@ -34,7 +49,7 @@ export const verify = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-    const { nama, email, password } = req.body;
+    const { nama, username, email, password } = req.body;
     let result = {
         email: {
             value: email,
@@ -56,7 +71,7 @@ export const register = async (req, res) => {
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt);
 
-        await User.create({ nama, email, password: hashPassword });
+        await User.create({ nama, username, email, password: hashPassword });
 
         const user = await User.findOne({ where: { nama, email } })
         const payload = {
