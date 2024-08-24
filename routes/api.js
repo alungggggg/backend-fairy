@@ -5,6 +5,7 @@ import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
+import { getRekapByForumId } from "../controller/forumController.js"
 
 
 
@@ -58,6 +59,8 @@ router.post("/api/create-quiz", createQuiz)
 router.delete("/api/delete-quiz/:id", deleteQuiz)
 router.patch("/api/update-quiz/:id", updateQuiz)
 router.get("/api/get-quiz/:id", getQuizById)
+
+router.get("/api/get-rekap/:id_forum" , getRekapByForumId)
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
