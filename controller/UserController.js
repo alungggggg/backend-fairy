@@ -13,6 +13,7 @@ export const getUser = async (req, res) => {
 }
 
 export const profile = async (req, res) => {
+    // req.params
     const { token } = req.params
     const { id } = jwt.verify(token, process.env.JWT_SECRET)
     const user = await User.findOne({

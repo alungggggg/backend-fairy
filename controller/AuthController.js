@@ -360,6 +360,7 @@ export const login = async (req, res) => {
             }
             payload = {
                 id: email.id,
+                role: email.role,
             };
         } else if (username) {
             const passwordValidateUsername = await bcrypt.compare(password, username.password);
@@ -370,6 +371,7 @@ export const login = async (req, res) => {
             }
             payload = {
                 id: username.id,
+                role: username.role,
             };
         } else {
             return res.status(401).json({ message: "Email atau password salah! Username/pass", status: false });
@@ -399,7 +401,7 @@ export const login = async (req, res) => {
 
 function getAccessToken(user) {
     return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "1m",
+        expiresIn: "1h",
     });
 }
 function getRefreshToken(user) {
