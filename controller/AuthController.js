@@ -345,26 +345,41 @@ export const checkEmail = async (req, res) => {
 let refreshToken = [];
 
 export const login = async (req, res) => {
+    const { credential, password } = req.body;
+    let payload = {}
     try {
-        const { email, password } = req.body;
-        const account = await User.findOne({ where: { email } });
-        if (!account) {
-            return res
-                .status(401)
-                .json({ message: "Email atau password salah!", status: false });
+        const email = await User.findOne({ where: { email: credential } });
+        const username = await User.findOne({ where: { username: credential } });
+
+        if (email) {
+            const passwordValidateEmail = await bcrypt.compare(password, email.password);
+            if (!passwordValidateEmail) {
+                return res
+                    .status(401)
+                    .json({ message: "Email atau password salah!pass", status: false });
+            }
+            payload = {
+                id: email.id,
+                role: email.role,
+            };
+        } else if (username) {
+            const passwordValidateUsername = await bcrypt.compare(password, username.password);
+            if (!passwordValidateUsername) {
+                return res
+                    .status(401)
+                    .json({ message: "Email atau password salah!pass", status: false });
+            }
+            payload = {
+                id: username.id,
+                role: username.role,
+            };
+        } else {
+            return res.status(401).json({ message: "Email atau password salah! Username/pass", status: false });
         }
-        const passwordValidate = await bcrypt.compare(password, account.password);
-        if (!passwordValidate) {
-            return res
-                .status(401)
-                .json({ message: "Email atau password salah!pass", status: false });
-        }
-        // result.status = (bcrypt.compare(password, account.password, (err, result) => result))
-        const payload = {
-            id: account.id,
-            nama: account.nama,
-            email: account.email,
-        };
+
+
+
+        // if (!passwordValidate) {
 
         let refreshTokenUsers = getRefreshToken(payload);
         refreshToken.push(refreshTokenUsers);
@@ -372,8 +387,6 @@ export const login = async (req, res) => {
         return res.status(200).json({
             data: {
                 id: payload.id,
-                nama: payload.nama,
-                email: payload.email,
                 status: true,
             },
             token: {
@@ -384,11 +397,11 @@ export const login = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
 
 function getAccessToken(user) {
     return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "1m",
+        expiresIn: "1h",
     });
 }
 function getRefreshToken(user) {

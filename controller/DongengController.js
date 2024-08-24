@@ -13,9 +13,14 @@ export const getDongeng = async (req, res) => {
     }
 }
 
-export const popularView = (req, res) => {
+export const popularView = async (req, res) => {
     try {
-        const result = Dongeng.findAll({ limit: 4, order: ['title', 'DESC'] });
+        const result = await Dongeng.findAll(
+            {
+                limit: 4,
+                order: [['view', 'DESC']]
+            }
+        );
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500).json({ error: error.message });
