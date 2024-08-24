@@ -1,7 +1,7 @@
 import express from "express"
 import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } from "../controller/UserController.js"
 import { register, login, isAvailableUsername, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT, verify } from "../controller/AuthController.js"
-import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView } from "../controller/DongengController.js"
+import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView, popularView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
@@ -24,7 +24,7 @@ router.get("/api/dongeng", getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
 router.get("/api/dongeng/:id", getDongengById);
 router.get("/api/dongengview/:id", sumView)
-// router.get("/api/popular", popularView)
+router.get("/api/popular", popularView)
 
 router.post("/api/login", login)
 router.post("/api/logout", logout)
