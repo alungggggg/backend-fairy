@@ -4,6 +4,17 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { transporter } from "../config/EmailSender.js";
 
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { id } = jwt.verify(token, process.env.JWT_SECRET);
+        await User.update(req.body, { where: { id } })
+        return res.status(200).json({ message: "Berhasil mengupdate profile" })
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
 export const validJWT = (req, res) => {
     try {
         const { token } = req.params;
@@ -400,12 +411,12 @@ export const login = async (req, res) => {
 }
 
 function getAccessToken(user) {
-    return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
         expiresIn: "1h",
     });
 }
 function getRefreshToken(user) {
-    return jwt.sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, {
+    return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_REFRESH_SECRET, {
         expiresIn: "7d",
     });
 }
