@@ -101,9 +101,9 @@ router.patch("/api/update-soal-uraian-panjang/:id", updateSoalUraianPanjang);
 
 router.get("/api/get-all-quiz", accessValidation, getAllQuiz);
 router.post("/api/create-quiz", accessValidation, createQuiz);
-router.delete("/api/delete-quiz/:id", deleteQuiz);
-router.patch("/api/update-quiz/:id", updateQuiz);
-router.get("/api/get-quiz/:id", getQuizById);
+router.delete("/api/delete-quiz/:id",accessValidation, deleteQuiz);
+router.patch("/api/update-quiz/:id",accessValidation, updateQuiz);
+router.get("/api/get-quiz/:id",accessValidation, getQuizById);
 
 router.get("/api/get-rekap/:id_forum", getRekapByForumId);
 
