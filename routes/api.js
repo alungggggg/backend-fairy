@@ -66,7 +66,7 @@ router.delete("/api/users/:id", accessValidation, deleteUser);
 
 router.post("/api/dongeng", createDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
-router.get("/api/dongeng",accessValidation, getDongeng);
+router.get("/api/dongeng", accessValidation, getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
 router.get("/api/dongeng/:id", getDongengById);
 router.get("/api/dongengview/:id", sumView);
@@ -85,25 +85,61 @@ router.get("/api/isvalidtoken/:token", validJWT);
 router.get("/api/verify", verify);
 
 router.post("/api/set-soal-pilgan", accessValidation, createSoalPilgan);
-router.get("/api/get-soal-pilgan", getSoalPilgan);
-router.delete("/api/delete-soal-pilgan/:id", deleteSoalPilgan);
-router.patch("/api/update-soal-pilgan/:id", updateSoalPilgan);
+router.get("/api/get-soal-pilgan", accessValidation, getSoalPilgan);
+router.delete(
+  "/api/delete-soal-pilgan/:id",
+  accessValidation,
+  deleteSoalPilgan
+);
+router.patch("/api/update-soal-pilgan/:id", accessValidation, updateSoalPilgan);
 
-router.get("/api/get-soal-uraian-singkat", getSoalUraianSingkat);
-router.post("/api/set-soal-uraian-singkat", createSoalUraianSingkat);
-router.delete("/api/delete-soal-uraian-singkat/:id", deleteSoalUraianSingkat);
-router.patch("/api/update-soal-uraian-singkat/:id", updateSoalUraianSingkat);
+router.get(
+  "/api/get-soal-uraian-singkat",
+  accessValidation,
+  getSoalUraianSingkat
+);
+router.post(
+  "/api/set-soal-uraian-singkat",
+  accessValidation,
+  createSoalUraianSingkat
+);
+router.delete(
+  "/api/delete-soal-uraian-singkat/:id",
+  accessValidation,
+  deleteSoalUraianSingkat
+);
+router.patch(
+  "/api/update-soal-uraian-singkat/:id",
+  accessValidation,
+  updateSoalUraianSingkat
+);
 
-router.get("/api/get-soal-uraian-panjang", getSoalUraianPanjang);
-router.post("/api/set-soal-uraian-panjang", createSoalUraianPanjang);
-router.delete("/api/delete-soal-uraian-panjang/:id", deleteSoalUraianPanjang);
-router.patch("/api/update-soal-uraian-panjang/:id", updateSoalUraianPanjang);
+router.get(
+  "/api/get-soal-uraian-panjang",
+  accessValidation,
+  getSoalUraianPanjang
+);
+router.post(
+  "/api/set-soal-uraian-panjang",
+  accessValidation,
+  createSoalUraianPanjang
+);
+router.delete(
+  "/api/delete-soal-uraian-panjang/:id",
+  accessValidation,
+  deleteSoalUraianPanjang
+);
+router.patch(
+  "/api/update-soal-uraian-panjang/:id",
+  accessValidation,
+  updateSoalUraianPanjang
+);
 
 router.get("/api/get-all-quiz", accessValidation, getAllQuiz);
 router.post("/api/create-quiz", accessValidation, createQuiz);
-router.delete("/api/delete-quiz/:id",accessValidation, deleteQuiz);
-router.patch("/api/update-quiz/:id",accessValidation, updateQuiz);
-router.get("/api/get-quiz/:id",accessValidation, getQuizById);
+router.delete("/api/delete-quiz/:id", accessValidation, deleteQuiz);
+router.patch("/api/update-quiz/:id", accessValidation, updateQuiz);
+router.get("/api/get-quiz/:id", accessValidation, getQuizById);
 
 router.get("/api/get-rekap/:id_forum", getRekapByForumId);
 
