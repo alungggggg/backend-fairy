@@ -64,7 +64,7 @@ router.post("/api/users", accessValidation, createUser);
 router.patch("/api/users/:id", accessValidation, updateUser);
 router.delete("/api/users/:id", accessValidation, deleteUser);
 
-router.post("/api/dongeng", createDongeng);
+router.post("/api/dongeng",accessValidation, createDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
 router.get("/api/dongeng", accessValidation, getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
