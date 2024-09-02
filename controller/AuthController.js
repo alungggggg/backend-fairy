@@ -5,17 +5,16 @@ import jwt from "jsonwebtoken";
 import { transporter } from "../config/EmailSender.js";
 import { env } from "process";
 
-
 export const updateProfile = async (req, res) => {
-    try {
-        const { token } = req.params;
-        const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        await User.update(req.body, { where: { id } })
-        return res.status(200).json({ message: "Berhasil mengupdate profile" })
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
-}
+  try {
+    const { token } = req.params;
+    const { id } = jwt.verify(token, process.env.JWT_SECRET);
+    await User.update(req.body, { where: { id } });
+    return res.status(200).json({ message: "Berhasil mengupdate profile" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 export const validJWT = (req, res) => {
   try {
     const { token } = req.params;
@@ -397,13 +396,12 @@ export const login = async (req, res) => {
         refreshToken: email.refreshToken,
       };
     } else {
-      return res
-        .status(401)
-        .json({
-          message: "Email atau password salah! Username/pass",
-          status: false,
-        });
-    
+      return res.status(401).json({
+        message: "Email atau password salah! Username/pass",
+        status: false,
+      });
+    }
+
     return res.status(200).json({
       data: {
         id: payload.id,
@@ -436,7 +434,7 @@ async function getRefreshToken(id) {
   } catch (error) {
     console.log(error);
   }
-}// gng kangge
+} // gng kangge
 
 export const logout = async (req, res) => {
   return res.status(200).json({ status: true });
