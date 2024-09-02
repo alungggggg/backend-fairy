@@ -13,6 +13,15 @@ export const getDongeng = async (req, res) => {
     }
 }
 
+export const countDongeng = async (req, res) => {
+    try {
+        const response = (await (Dongeng.findAll())).length;
+        return res.status(200).json({ row: response })
+    } catch (err) {
+        return res.status(401).json({ message: err.message });
+    }
+}
+
 export const popularView = async (req, res) => {
     try {
         const result = await Dongeng.findAll(

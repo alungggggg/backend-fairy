@@ -1,7 +1,7 @@
 import express from "express"
 import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } from "../controller/UserController.js"
 import { register, login, isAvailableUsername, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT, verify, updateProfile } from "../controller/AuthController.js"
-import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView, popularView } from "../controller/DongengController.js"
+import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView, popularView, countDongeng } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
@@ -21,6 +21,7 @@ router.delete("/api/users/:id", accessValidation, deleteUser);
 
 
 router.post("/api/dongeng", createDongeng);
+router.get("/api/count/dongeng", countDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
 router.get("/api/dongeng", getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
@@ -61,7 +62,7 @@ router.delete("/api/delete-quiz/:id", deleteQuiz)
 router.patch("/api/update-quiz/:id", updateQuiz)
 router.get("/api/get-quiz/:id", getQuizById)
 
-router.get("/api/get-rekap/:id_forum" , getRekapByForumId)
+router.get("/api/get-rekap/:id_forum", getRekapByForumId)
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
