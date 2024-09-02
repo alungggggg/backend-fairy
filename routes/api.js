@@ -5,7 +5,7 @@ import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
-import { getRekapByForumId } from "../controller/forumController.js"
+import { getRekapByForumId, joinForumByToken, updateNilaiQuiz } from "../controller/forumController.js"
 
 const router = express.Router();
 
@@ -97,6 +97,10 @@ router.patch("/api/update-quiz/:id", accessValidation, updateQuiz);
 router.get("/api/get-quiz/:id", accessValidation, getQuizById);
 
 router.get("/api/get-rekap/:id_forum", getRekapByForumId)
+
+// Join Forum
+router.post("/api/join-forum", joinForumByToken);
+router.post("/api/update-nilai-quiz", updateNilaiQuiz);
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
