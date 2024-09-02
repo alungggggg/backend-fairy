@@ -5,6 +5,17 @@ import jwt from "jsonwebtoken";
 import { transporter } from "../config/EmailSender.js";
 import { env } from "process";
 
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { id } = jwt.verify(token, process.env.JWT_SECRET);
+        await User.update(req.body, { where: { id } })
+        return res.status(200).json({ message: "Berhasil mengupdate profile" })
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
 export const validJWT = (req, res) => {
   try {
     const { token } = req.params;
@@ -392,8 +403,7 @@ export const login = async (req, res) => {
           message: "Email atau password salah! Username/pass",
           status: false,
         });
-    }
-
+    
     return res.status(200).json({
       data: {
         id: payload.id,
@@ -414,6 +424,7 @@ function getAccessToken(user) {
     expiresIn: "1m",
   });
 }
+
 async function getRefreshToken(id) {
   try {
     const res = await User.findOne({
