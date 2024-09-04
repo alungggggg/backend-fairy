@@ -1,5 +1,5 @@
 import express from "express"
-import { deleteUser, updateUser, createUser, getUser, getUserByID, profile } from "../controller/UserController.js"
+import { deleteUser, updateUser, createUser, getUser, getUserByID, profile, getHistory, updateHistory } from "../controller/UserController.js"
 import { register, login, isAvailableUsername, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT, verify, updateProfile } from "../controller/AuthController.js"
 import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView, popularView, countDongeng, countAllView } from "../controller/DongengController.js"
 import accessValidation from "../middleware/authorization.js"
@@ -103,5 +103,8 @@ router.get("/api/test", authenticationToken, testAuthToken);
 
 router.get("/api/visited", newVisited)
 router.get("/api/visited/get", getAllVisited)
+
+router.get("/api/history", getHistory)
+router.get("/api/history/update",updateHistory)
 
 export default router;
