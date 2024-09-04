@@ -22,7 +22,7 @@ router.post("/api/dongeng", createDongeng);
 router.get("/api/count/view", countAllView);
 router.get("/api/count/dongeng", countDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
-router.get("/api/dongeng", accessValidation, getDongeng);
+router.get("/api/dongeng", getDongeng);
 router.patch("/api/dongeng/:id", accessValidation, updateDongeng);
 router.get("/api/dongeng/:id", getDongengById);
 router.get("/api/dongengview/:id", sumView);
