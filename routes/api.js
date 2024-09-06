@@ -5,8 +5,9 @@ import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng
 import accessValidation from "../middleware/authorization.js"
 import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
 import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
-import { getRekapByForumId } from "../controller/forumController.js"
+
 import { newVisited, getAllVisited } from "../controller/visitedController.js"
+import { getRekapByForumId, joinForumByToken, updateNilaiQuiz } from "../controller/forumController.js"
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post("/api/users", accessValidation, createUser);
 router.patch("/api/users/:id", updateUser);
 router.delete("/api/users/:id", accessValidation, deleteUser);
 
-router.post("/api/dongeng", createDongeng);
+router.post("/api/dongeng",accessValidation, createDongeng);
 router.get("/api/count/view", countAllView);
 router.get("/api/count/dongeng", countDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
@@ -98,6 +99,10 @@ router.patch("/api/update-quiz/:id", accessValidation, updateQuiz);
 router.get("/api/get-quiz/:id", accessValidation, getQuizById);
 
 router.get("/api/get-rekap/:id_forum", getRekapByForumId)
+
+// Join Forum
+router.post("/api/join-forum", joinForumByToken);
+router.post("/api/update-nilai-quiz", updateNilaiQuiz);
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
