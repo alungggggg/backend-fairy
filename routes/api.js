@@ -1,25 +1,83 @@
-import express from "express"
-import { deleteUser, updateUser, createUser, getUser, getUserByID, profile, getHistory, updateHistory } from "../controller/UserController.js"
-import { register, login, isAvailableUsername, isAvailableEmail, checkEmail, forgotPasswordSend, forgotPasswordForm, logout, testAuthToken, authenticationToken, refreshNewToken, validJWT, verify, updateProfile } from "../controller/AuthController.js"
-import { getDongeng, getDongengById, createDongeng, updateDongeng, deleteDongeng, sumView, popularView, countDongeng, countAllView } from "../controller/DongengController.js"
-import accessValidation from "../middleware/authorization.js"
-import { createSoalPilgan, createSoalUraianPanjang, createSoalUraianSingkat, deleteSoalPilgan, deleteSoalUraianPanjang, deleteSoalUraianSingkat, getSoalPilgan, getSoalUraianPanjang, getSoalUraianSingkat, updateSoalPilgan, updateSoalUraianPanjang, updateSoalUraianSingkat } from "../controller/soalController.js"
-import { createQuiz, deleteQuiz, getAllQuiz, getQuizById, updateQuiz } from "../controller/quizController.js"
+import express from "express";
+import {
+  deleteUser,
+  updateUser,
+  createUser,
+  getUser,
+  getUserByID,
+  profile,
+  getHistory,
+  updateHistory,
+} from "../controller/UserController.js";
+import {
+  register,
+  login,
+  isAvailableUsername,
+  isAvailableEmail,
+  checkEmail,
+  forgotPasswordSend,
+  forgotPasswordForm,
+  logout,
+  testAuthToken,
+  authenticationToken,
+  refreshNewToken,
+  validJWT,
+  verify,
+  updateProfile,
+} from "../controller/AuthController.js";
+import {
+  getDongeng,
+  getDongengById,
+  createDongeng,
+  updateDongeng,
+  deleteDongeng,
+  sumView,
+  popularView,
+  countDongeng,
+  countAllView,
+} from "../controller/DongengController.js";
+import accessValidation from "../middleware/authorization.js";
+import {
+  createSoalPilgan,
+  createSoalUraianPanjang,
+  createSoalUraianSingkat,
+  deleteSoalPilgan,
+  deleteSoalUraianPanjang,
+  deleteSoalUraianSingkat,
+  getSoalPilgan,
+  getSoalUraianPanjang,
+  getSoalUraianSingkat,
+  updateSoalPilgan,
+  updateSoalUraianPanjang,
+  updateSoalUraianSingkat,
+} from "../controller/soalController.js";
+import {
+  createQuiz,
+  deleteQuiz,
+  getAllQuiz,
+  getQuizById,
+  updateQuiz,
+} from "../controller/quizController.js";
 
-import { newVisited, getAllVisited } from "../controller/visitedController.js"
-import { getRekapByForumId, joinForumByToken, updateNilaiQuiz } from "../controller/forumController.js"
+import { newVisited, getAllVisited } from "../controller/visitedController.js";
+import {
+  getQuizByUserId,
+  getRekapByForumId,
+  joinForumByToken,
+  updateNilaiQuiz,
+} from "../controller/forumController.js";
 
 const router = express.Router();
 
-router.get("/api/profile/:token", profile)
-router.post("/api/profile/update/:token", updateProfile)
+router.get("/api/profile/:token", profile);
+router.post("/api/profile/update/:token", updateProfile);
 router.get("/api/users/:id", accessValidation, getUserByID);
 router.get("/api/users", accessValidation, getUser);
 router.post("/api/users", accessValidation, createUser);
 router.patch("/api/users/:id", updateUser);
 router.delete("/api/users/:id", accessValidation, deleteUser);
 
-router.post("/api/dongeng",accessValidation, createDongeng);
+router.post("/api/dongeng", accessValidation, createDongeng);
 router.get("/api/count/view", countAllView);
 router.get("/api/count/dongeng", countDongeng);
 router.delete("/api/dongeng/:id", accessValidation, deleteDongeng);
@@ -98,18 +156,23 @@ router.delete("/api/delete-quiz/:id", accessValidation, deleteQuiz);
 router.patch("/api/update-quiz/:id", accessValidation, updateQuiz);
 router.get("/api/get-quiz/:id", accessValidation, getQuizById);
 
-router.get("/api/get-rekap/:id_forum", getRekapByForumId)
+router.get("/api/get-rekap/:id_forum", getRekapByForumId);
 
 // Join Forum
-router.post("/api/join-forum", joinForumByToken);
+router.post("/api/join-forum",accessValidation, joinForumByToken);
 router.post("/api/update-nilai-quiz", updateNilaiQuiz);
+router.get(
+  "/api/get-forum-by-userid/:id_user",
+  accessValidation,
+  getQuizByUserId
+);
 
 router.get("/api/test", authenticationToken, testAuthToken);
 
-router.get("/api/visited", newVisited)
-router.get("/api/visited/get", getAllVisited)
+router.get("/api/visited", newVisited);
+router.get("/api/visited/get", getAllVisited);
 
-router.get("/api/history", getHistory)
-router.get("/api/history/update",updateHistory)
+router.get("/api/history", getHistory);
+router.get("/api/history/update", updateHistory);
 
 export default router;
