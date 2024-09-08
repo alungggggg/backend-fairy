@@ -63,6 +63,7 @@ import { newVisited, getAllVisited } from "../controller/visitedController.js";
 import {
   getQuizByUserId,
   getRekapByForumId,
+  getRekapById,
   joinForumByToken,
   updateNilaiQuiz,
 } from "../controller/forumController.js";
@@ -160,12 +161,13 @@ router.get("/api/get-rekap/:id_forum", getRekapByForumId);
 
 // Join Forum
 router.post("/api/join-forum",accessValidation, joinForumByToken);
-router.post("/api/update-nilai-quiz", updateNilaiQuiz);
+router.post("/api/update-nilai-quiz",accessValidation, updateNilaiQuiz);
 router.get(
   "/api/get-forum-by-userid/:id_user",
   accessValidation,
   getQuizByUserId
 );
+router.get("/api/get-rekap-quiz/:id", accessValidation, getRekapById);
 
 router.get("/api/test", authenticationToken, testAuthToken);
 

@@ -48,7 +48,7 @@ export const joinForumByToken = async (req, res) => {
       return res.status(400).json({ message: "Token expired" });
     } else if (new Date(result.access_date) > date) {
       return res.status(400).json({ message: "Token not yet available" });
-    } 
+    }
 
     const checkJoinedStatus = await RekapNilaiModel.findOne({
       where: {
@@ -80,8 +80,7 @@ export const updateNilaiQuiz = async (req, res) => {
   try {
     const result = await RekapNilaiModel.findOne({
       where: {
-        id_User: req.body.id_user,
-        id_Forum: req.body.id_forum,
+        id: req.body.id,
       },
     });
     result.nilai = req.body.nilai;
@@ -121,6 +120,19 @@ export const getQuizByUserId = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const getRekapById = async (req, res) => {
+  try {
+    const result = await RekapNilaiModel.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    return res.status(200).json(result);
+  } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
