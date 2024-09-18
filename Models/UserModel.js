@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import db from "../config/Database.js";
-
+import history from "./historyModel.js";
 
 const User = db.define("users",
     {
@@ -31,6 +31,11 @@ const User = db.define("users",
     { freezeTableName: true }
 )
 
+    
+User.hasMany(history, {
+    foreignKey: "id_user",
+    sourceKey: "id",
+});
 
 
 const loginModel = async (email, password) => {
