@@ -1,7 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import User from "./UserModel.js"
-import Dongeng from "./DongengModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -14,17 +12,19 @@ const history = db.define(
             autoIncrement: true,
         },
         id_user: {
-            type: Sequelize.INTEGER,
-            references:{
-                model: User,
-                key: "id"
+            type: Sequelize.INTEGER, 
+            allowNull: false,
+            references : {
+                model: "User",
+                key: "id",
             }
         }, 
         id_dongeng : {
             type: Sequelize.INTEGER, 
+            allowNull: false,
             references : {
-                model: Dongeng,
-                key:"id"
+                model: "Dongeng",
+                key: "id",
             }
         }
     },

@@ -34,7 +34,6 @@ const User = db.define("users",
     
 User.hasMany(history, {
     foreignKey: "id_user",
-    sourceKey: "id",
 });
 
 

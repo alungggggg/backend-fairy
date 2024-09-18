@@ -175,6 +175,6 @@ router.get("/api/visited", newVisited);
 router.get("/api/visited/get", getAllVisited);
 
 router.get("/api/history", getHistory);
-router.get("/api/history/update", updateHistory);
+router.post("/api/history/update", updateHistory);
 
 export default router;

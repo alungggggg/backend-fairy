@@ -6,7 +6,7 @@
 #     "password": "Alung01042003#1"
 # }
 
-GET http://localhost:5000/api/history/update
+# GET http://localhost:5000/api/history/update
 
 
  
@@ -23,18 +23,16 @@ GET http://localhost:5000/api/history/update
 # DELETE http://localhost:5000/api/users/100
 
 
-# POST  http://localhost:5000/api/register
-# Content-Type: application/json
-
-# {
-#     "nama": "alung",
-#     "email": "alusngpwd@gmail.com",
-#     "password": "asdasdasd",
-#     "confirmPassword": "asdasdasd"
-# }
-
-GET http://localhost:5000/api/profile/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTcyMzQ3ODM1NywiZXhwIjoxNzIzNDc4NDE3fQ.Dw46-FYQ0Ke6yDyDuhQifQFdScE2Bi9cYpz7wEo1kko
+POST  http://localhost:5000/api/history/update
 Content-Type: application/json
+
+{
+    "id": 8,
+    "id_dongeng": 12367,
+}
+
+# GET http://localhost:5000/api/profile/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTcyMzQ3ODM1NywiZXhwIjoxNzIzNDc4NDE3fQ.Dw46-FYQ0Ke6yDyDuhQifQFdScE2Bi9cYpz7wEo1kko
+# Content-Type: application/json
 
 
 # $2b$10$bw89PAvgoVSCCThxxiLm4OwqakZrJT7KsIlFvDi03YhDtYrsbl6he
