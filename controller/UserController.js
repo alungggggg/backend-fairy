@@ -1,11 +1,11 @@
 import User from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
 import { env } from "process";
 import histories from "../Models/historyModel.js";
 
 export const getHistory = async (req, res) => {
+  const targetUserId = parseInt(req.params.id)
   const history = await User.findAll({
     include: [
       {
@@ -15,9 +15,83 @@ export const getHistory = async (req, res) => {
       },
     ],
   });
+  let results = []
 
-  return res.status(200).json({ history: history.histories });
+  history.forEach(element => {
+    let userHistory = {};
+    userHistory.id_user = element.histories[0]?.id_user || null;  // Ambil id_user dari riwayat pertama
+    userHistory.id_dongeng = [];  // Siapkan array untuk id_dongeng
+  
+    element.histories.forEach(history => {
+      userHistory.id_dongeng.push(history.id_dongeng);  // Tambahkan id_dongeng ke array
+    });
+  
+    results.push(userHistory);
+  });
+
+  const allDongeng = new Set();
+
+  results.forEach(user => {
+    user.id_dongeng.forEach(dongeng => allDongeng.add(dongeng));
+  });
+
+  const dongengList = Array.from(allDongeng);
+  console.log("All Dongeng IDs:", dongengList);
+
+  function createUserVector(user, dongengList) {
+    return dongengList.map(dongeng => user.id_dongeng.includes(dongeng) ? 1 : 0);
+  }
+  
+  // Buat vektor untuk setiap pengguna
+  const userVectors = results.map(user => ({
+    id_user: user.id_user,
+    vector: createUserVector(user, dongengList)
+  }));
+  
+  console.log("User Vectors:", userVectors);
+
+  function cosineSimilarity(vecA, vecB) {
+    const dotProduct = vecA.reduce((sum, val, idx) => sum + val * vecB[idx], 0);
+    const magnitudeA = Math.sqrt(vecA.reduce((sum, val) => sum + val * val, 0));
+    const magnitudeB = Math.sqrt(vecB.reduce((sum, val) => sum + val * val, 0));
+  
+    if (magnitudeA === 0 || magnitudeB === 0) return 0;  // Jika magnitudo 0, Cosine Similarity = 0
+    return dotProduct / (magnitudeA * magnitudeB);
+  }
+
+  const targetUserVector = userVectors.find(user => user.id_user !== null && user.id_user === targetUserId);
+
+  // console.log(targetUserId)
+// Bandingkan dengan semua user lain
+  const similarities = [];
+  userVectors.forEach(user => {
+    if (user.id_user !== targetUserId) {  // Jangan bandingkan dengan diri sendiri
+      const similarity = cosineSimilarity(targetUserVector.vector, user.vector);
+      
+      // Tambahkan hasil perhitungan ke array similarities sebagai objek
+      similarities.push({
+        idUser: user.id_user,   // Properti id_user dari user
+        similarity: similarity  // Hasil perhitungan cosine similarity
+      });
+    }
+  });
+
+  const validSimilarities = similarities.filter(user => user.idUser !== null);
+  validSimilarities.sort((a, b) => b.similarity - a.similarity);
+
+
+  const userIds = similarities.map(user => user.idUser);
+  // userIds.forEach(element => {
+  //   results.
+  // })
+
+  
+
+  return res.status(200).json({ userIds });
+
 };
+
+
 
 export const updateHistory = async (req, res) => {
   const { id } = req.body;

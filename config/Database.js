@@ -1,7 +1,11 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize("dongeng", "root", "", {
-    host: "localhost",
+
+const db = new Sequelize({
+    database : process.env.DATABASENAME,
+    username : process.env.USERNAME,
+    password : process.env.PASSWORD,
+    host: process.env.HOSTNAME,
     dialect: "mysql"
 })
 
