@@ -1,9 +1,10 @@
 import User from "../Models/UserModel.js";
 import { loginModel } from "../Models/UserModel.js";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { transporter } from "../config/EmailSender.js";
 import { env } from "process";
+import CryptoJS from "crypto-js"
 
 export const updateProfile = async (req, res) => {
   try {
@@ -78,8 +79,8 @@ export const register = async (req, res) => {
       return res.status(200).json(result);
     }
 
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+
 
     const refreshToken = jwt.sign(nama, env.JWT_REFRESH_SECRET);
 
@@ -373,12 +374,13 @@ export const login = async (req, res) => {
           .status(401)
           .json({ message: "Email atau password salah!", status: false });
       }
-      const passwordValidateEmail = await bcrypt.compare(
-        password,
-        email.password
-      );
 
-      if (!passwordValidateEmail) {
+      const passwordValidateEmail = (password, emailPassword) => {
+        const hashedPassword = CryptoJS.SHA256(password).toString(); // Hash the password using SHA256
+        return hashedPassword === emailPassword; // Compare the hashed password with the stored hash
+      };
+
+      if (!passwordValidateEmail(password , email.password)) {
         return res
           .status(401)
           .json({ message: "Email atau password salah!pass", status: false });
@@ -389,10 +391,12 @@ export const login = async (req, res) => {
         refreshToken: email.refreshToken,
       };
     } else if (username) {
-      const passwordValidateUsername = await bcrypt.compare(
-        password,
-        username.password
-      );
+      // const passwordValidateUsername = await (
+      //   password,
+      //   username.password
+      // );
+
+      
 
       if (username.isActive != 1) {
         return res
@@ -400,12 +404,11 @@ export const login = async (req, res) => {
           .json({ message: "Email atau password salah!", status: false });
       }
 
-      if (!passwordValidateUsername) {
+      if (!passwordValidateEmail(password , username.password)) {
         return res
           .status(401)
           .json({ message: "Email atau password salah!pass", status: false });
       }
-      console.log("p")
       payload = {
         id: username.id,
         role: username.role,
@@ -497,8 +500,7 @@ export const forgotPasswordForm = async (req, res) => {
 
   console.log(id);
   try {
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(newPassword, salt);
+    const hashPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
     await User.update({ password: hashPassword }, { where: { id } });
     return res.status(200).json({ message: "Berhasil mengganti password" });
   } catch (error) {
