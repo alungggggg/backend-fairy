@@ -1,5 +1,4 @@
 import User from "../Models/UserModel.js";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "process";
 import histories from "../Models/historyModel.js";
@@ -168,8 +167,7 @@ export const createUser = async (req, res) => {
     return res.status(400).json({ email: "Email sudah di gunakan!" });
   }
   try {
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    const hashPassword = CryptoJS.SHA256(req.body.password).toString(CryptoJS.enc.Hex);
     req.body.password = hashPassword;
     req.body.refreshToken = jwt.sign(req.body.nama, env.JWT_REFRESH_SECRET);
     await User.create(req.body);
@@ -184,9 +182,8 @@ export const updateUser = async (req, res) => {
   try {
     if (req.body.password) {
       // const { nama, email, password } = req.body
-      const salt = await bcrypt.genSalt();
       const password = req.body.password;
-      const hashPassword = await bcrypt.hash(password, salt);
+      const hashPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
 
       req.body.password = hashPassword;
 
